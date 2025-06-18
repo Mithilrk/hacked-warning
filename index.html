@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Device Compromised</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: red;
+      font-size: 36px;
+    }
+    p {
+      font-size: 18px;
+    }
+    #countdown {
+      font-size: 28px;
+      color: yellow;
+    }
+    .btn {
+      padding: 14px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      margin: 10px;
+      display: inline-block;
+    }
+    .report {
+      background-color: green;
+      color: white;
+    }
+    .close {
+      background-color: gray;
+      color: white;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0px, 0px); }
+      10% { transform: translate(-2px, 2px); }
+      20% { transform: translate(-2px, -2px); }
+      30% { transform: translate(2px, 2px); }
+      40% { transform: translate(2px, -2px); }
+      50% { transform: translate(-2px, 2px); }
+      60% { transform: translate(-2px, -2px); }
+      70% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      90% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0px, 0px); }
+    }
+
+    .shake {
+      animation: shake 0.2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <h1>⚠️ DEVICE COMPROMISED</h1>
+    <p><strong>IP Address:</strong> 182.69.220.41</p>
+    <p><strong>Name:</strong> Verified via Google Account</p>
+    <p><strong>Front Camera:</strong> Accessed ✅</p>
+    <p><strong>Live Location:</strong> Locked 🔒</p>
+    <p style="color: red; font-weight: bold;">
+      You have <span id="countdown">10</span> seconds to report your identity or risk total data loss.
+    </p>
+
+    <a class="btn report" href="https://wa.me/91123455789?text=Help!%20My%20phone%20says%20it's%20been%20hacked%20and%20I%20have%20only%2010%20seconds%20to%20report%20my%20identity.%20Please%20help!!">
+      Report Identity
+    </a>
+
+    <a class="btn close" href="https://wa.me/91123455789?text=Help!%20My%20phone%20says%20it's%20been%20hacked%20and%20I%20have%20only%2010%20seconds%20to%20report%20my%20identity.%20Please%20help!!">
+      Close
+    </a>
+  </div>
+
+  <script>
+    let seconds = 10;
+    const timer = document.getElementById("countdown");
+    const mainDiv = document.getElementById("main");
+
+    const interval = setInterval(() => {
+      seconds--;
+      timer.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        timer.textContent = "0";
+        mainDiv.classList.add("shake");
+        alert("System instability detected. Please report now!");
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
